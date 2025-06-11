@@ -1,21 +1,9 @@
-from functions.get_files_info import get_files_info
-from functions.get_file_content import get_file_content
-from functions.write_file import write_file
-from functions.run_python_file import run_python_file
+from main import main
 
 
 def test():
-    result = run_python_file("calculator", "main.py")
-    print(result)
-
-    result = run_python_file("calculator", "tests.py")
-    print(result)
-
-    result = run_python_file("calculator", "../main.py")
-    print(result)
-
-    result = run_python_file("calculator", "nonexistent.py")
-    print(result)
+    main("what files are in the root?", verbose=False)
+    main("what files are in the pkg directory?", verbose=False)
 
 if __name__ == "__main__":
     test()
