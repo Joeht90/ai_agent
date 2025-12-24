@@ -1,4 +1,5 @@
 import os 
+from google.genai import types
 
 def write_file(working_directory, file_path, content):
     try:
@@ -20,3 +21,4 @@ def write_file(working_directory, file_path, content):
     except Exception as e:
         f"Error: writing to file: {e}"
 
+schema_write_file
