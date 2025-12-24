@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt as system_prompt
+from call_function import available_functions as available_functions
 
 # Create gemini client and pass api_key
 load_dotenv()
@@ -24,7 +25,9 @@ def main():
     response = client.models.generate_content(
         model='gemini-2.5-flash', 
         contents=messages,
-        config=types.GenerateContentConfig(system_instruction=system_prompt),
+        config=types.GenerateContentConfig(
+            tools=[available_functions],
+            system_instruction=system_prompt),
     )
     if args.verbose == True:
         print(
@@ -32,9 +35,15 @@ def main():
             f"Prompt tokens: {response.usage_metadata.prompt_token_count}\n"
             f"Response tokens: {response.usage_metadata.candidates_token_count}\n"
         )
-    print(
-        f'{response.text}'
-    )
+    if response.function_calls != None:
+        for function_call in function_calls:
+            print(
+                f"calling function: {function_call.name}({function_call.args})"
+            )
+    else:
+        print(
+            f'{response.text}'
+        )
 
 if __name__ == "__main__":
     main()
